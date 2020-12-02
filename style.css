@@ -14,7 +14,7 @@ html {
 
 body {
   margin: 0;
-  background: url("./trees.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 111, 222, 0.3)), url("./office.jpg");
   background-size: cover;
   background-position: 50% 60%;
   background-attachment: fixed;
