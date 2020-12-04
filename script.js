@@ -35,8 +35,6 @@ function getSavedColumns() {
   }
 }
 
-getSavedColumns();
-
 // Set localStorage Arrays
 function updateSavedColumns() {
   listArrays = [
@@ -51,8 +49,6 @@ function updateSavedColumns() {
     localStorage.setItem(`${name}Items`, JSON.stringify(listArrays[i]));
   });
 }
-
-updateSavedColumns();
 
 // Create DOM Elements for each list item
 function createItemEl(columnEl, column, item, index) {
