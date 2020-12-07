@@ -54,6 +54,12 @@ function updateSavedColumns() {
   });
 }
 
+// filter arrays to remove empty items
+function filterArray(array) {
+  const filteredArray = array.filter((item) => item !== null);
+  return filteredArray;
+}
+
 // Create DOM Elements for each list item
 function createItemEl(columnEl, column, item, index) {
   // console.log("columnEl:", columnEl);
@@ -67,6 +73,9 @@ function createItemEl(columnEl, column, item, index) {
   listEl.textContent = item;
   listEl.draggable = true;
   listEl.setAttribute("ondragstart", "drag(event)");
+  listEl.contentEditable = true;
+  listEl.id = index;
+  listEl.setAttribute("onfocusout", `updateItem(${index}, ${column})`);
   // Append : so we can put the right item in the right column
   columnEl.appendChild(listEl);
 }
@@ -82,24 +91,39 @@ function updateDOM() {
   backlogListArray.forEach((backlogItem, i) => {
     createItemEl(backlogList, 0, backlogItem, i);
   });
+  backlogListArray = filterArray(backlogListArray);
   // Progress Column
   progressList.textContent = "";
   progressListArray.forEach((backlogItem, i) => {
-    createItemEl(progressList, 0, backlogItem, i);
+    createItemEl(progressList, 1, backlogItem, i);
   });
+  progressListArray = filterArray(progressListArray);
   // Complete Column
   completeList.textContent = "";
   completeListArray.forEach((backlogItem, i) => {
-    createItemEl(completeList, 0, backlogItem, i);
+    createItemEl(completeList, 2, backlogItem, i);
   });
+  completeListArray = filterArray(completeListArray);
   // On Hold Column
   onHoldList.textContent = "";
   onHoldListArray.forEach((backlogItem, i) => {
-    createItemEl(onHoldList, 0, backlogItem, i);
+    createItemEl(onHoldList, 3, backlogItem, i);
   });
+  onHoldListArray = filterArray(onHoldListArray);
   // Run getSavedColumns only once, Update Local Storage
   updatedOnLoad = true;
   updateSavedColumns();
+}
+
+// Update Item - Delete if necessary, or Update array value
+function updateItem(id, column) {
+  const selectedArray = listArrays[column];
+  const selectedColumnEl = itemLists[column].children;
+
+  if (!selectedColumnEl[id].textContent) {
+    delete selectedArray[id];
+  }
+  updateDOM();
 }
 
 // Add to column List + reset the text box
