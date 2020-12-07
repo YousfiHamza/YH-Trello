@@ -126,7 +126,7 @@ ul {
 }
 
 .drag-item-list {
-  min-height: 50px;
+  min-height: 20px;
 }
 
 .drag-item {
